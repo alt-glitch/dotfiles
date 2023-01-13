@@ -1,0 +1,9 @@
+#!/bin/sh
+
+CURRENT_SOURCE=$(pactl info | grep "Default Source" | cut -f3 -d" ")
+if [ $(pactl list sources | grep -A 10 $CURRENT_SOURCE | grep -c "Mute: yes") -eq 1 ]
+then
+  echo "🔇" # Muted Icon (Install Some icon pack like feather, nerd-fonts)
+else
+  echo "🎙️" # Unmuted Icon (Install Some icon pack like feather, nerd-fonts)
+fi
