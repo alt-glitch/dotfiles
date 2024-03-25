@@ -62,6 +62,11 @@ gaps outer 0
 # window title alignment
 #title_align center
 
+# scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -173,7 +178,7 @@ bindsym $mod+r mode "resize"
 # start a terminal
 #bindsym $mod+Return exec xfce4-terminal
 bindsym $mod+Return exec alacritty
-
+# bindsym $mod+Return exec warp-terminal
 # kill focused window
 bindsym $mod+q kill
 
@@ -182,9 +187,9 @@ bindsym $mod+Shift+e exec ~/.config/i3/scripts/powermenu
 
 # Lock the system
 # lock with a picture:
-#bindsym $mod+l exec i3lock -i  ~/.config/i3/i3-lock-screen.png -p default|win -t
+bindsym $mod+l exec i3lock -i ~/Pictures/Wallpapers/wavey.png -p default|win -t
 # lock by blurring the screen:
-bindsym $mod+l exec ~/.config/i3/scripts/blur-lock
+# bindsym $mod+l exec ~/.config/i3/scripts/blur-lock
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -199,8 +204,8 @@ bindsym F1 exec ~/.config/i3/scripts/keyhint-2
 # bindsym $mod+F1 exec xed ~/.config/i3/keybindings
 
 # Backlight control
-bindsym XF86MonBrightnessUp exec xbacklight +5 #&& notify-send "Brightness - $(xbacklight -get | cut -d '.' -f 1)%"
-bindsym XF86MonBrightnessDown exec xbacklight -5 #&& notify-send "Brightness - $(xbacklight -get | cut -d '.' -f 1)%"
+bindsym XF86MonBrightnessUp exec brightnessctl -q s +5% #&& notify-send "Brightness - $(xbacklight -get | cut -d '.' -f 1)%"
+bindsym XF86MonBrightnessDown exec brightnessctl -q s 5-% #&& notify-send "Brightness - $(xbacklight -get | cut -d '.' -f 1)%"
 
 # change focus
 bindsym $mod+j focus left
@@ -276,7 +281,8 @@ bindsym XF86AudioStop exec playerctl stop
 bindsym $mod+p exec /usr/local/bin/switch-audio-port
 
 ## App shortcuts
-bindsym $mod+w exec /usr/bin/firefox
+# bindsym $mod+w exec /usr/bin/firefox
+bindsym $mod+w exec /usr/bin/brave
 bindsym $mod+n exec /usr/bin/thunar
 # bindsym Print exec scrot ~/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/$(date +"%Y-%m-%d-%T")-screenshot.png"
 
@@ -284,7 +290,7 @@ bindsym $mod+n exec /usr/bin/thunar
 bindsym $mod+Shift+p exec ~/.config/i3/scripts/power-profiles
 
 # Start flameshot
-bindsym Print exec --no-startup-id flameshot gui
+bindsym $mod+x exec --no-startup-id flameshot gui
 
 
 ##########################################
@@ -315,13 +321,22 @@ set $ws10 "10"
 
 # bind program to workspace and focus to them on startup:
 # assign [class="Xfce4-terminal"] $ws1
-assign [class="(?i)firefox"] $ws2
+# assign [class="(?i)firefox"] $ws2
+assign [class="Brave-browser"] $ws2
+assign [class="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] $ws6
 # assign [class="Thunar"] $ws3
 for_window [class="Spotify"] move to workspace $ws10
-
+for_window [class="Windscribe"] floating enable
+assign [class="todoist"] $ws1
+assign [class="obsidian"] $ws1
+assign [class="discord"] $ws5
+assign [class="Slack"] $ws6
+assign [class="Signal"] $ws6
+assign [class="zoom"] $ws9
 # automatic set focus new window if it opens on another workspace than the current:
 # for_window [class=Xfce4-terminal] focus
 # for_window [class=(?i)firefox] focus
+for_window [class=brave-browser] focus
 # for_window [class=Thunar] focus
 
 ##############
@@ -383,17 +398,17 @@ exec --no-startup-id numlockx on
 # start a script to setup displays
 # uncomment the next line, use arandr to setup displays and save the file as monitor:
 # exec --no-startup-id ~/.screenlayout/monitor.sh
-exec_always --no-startup-id ~/.screenlayout/autorandr.sh
+# exec_always --no-startup-id ~/.screenlayout/autorandr.sh
 
 # set wallpaper
 # exec --no-startup-id sleep 2 && nitrogen --restore
-exec --no-startup-id sleep 1 && feh --bg-scale ~/Pictures/Wallpapers/wavey.png
+exec --no-startup-id sleep 1 && feh --bg-fill /home/glitch/Pictures/Wallpapers/erevald.webp
 
 # set powersavings for display:
-exec --no-startup-id xset s 480 dpms 600 600 600
+# exec --no-startup-id xset s 480 dpms 600 600 600
 
 # disable power saving (for example if using xscreensaver)
-#exec --no-startup-id xset -dpms
+exec --no-startup-id xset -dpms
 
 # use xautolock to use autosuspend rules for mobile devices
 # https://wiki.archlinux.org/title/Session_lock#xautolock
@@ -418,6 +433,8 @@ exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
 #exec --no-startup-id sleep 2 && xfce4-terminal
 #exec --no-startup-id sleep 7 && firefox https://github.com/endeavouros-team/endeavouros-i3wm-setup/blob/main/force-knowledge.md
 #exec --no-startup-id sleep 3 && thunar
+
+# exec --no-startup-id /usr/bin/psensor
 
 ###############
 # system tray #
@@ -481,7 +498,7 @@ set $yellowbrown	#e1b700
 
 # define colors for windows:
 #class		        	border		bground		text		indicator	child_border
-client.focused		    	$lightblue	$darkblue	$white		$darkgrey	$lightgrey
+client.focused		    	$lightblue	$darkblue	$white		$darkgrey	$grey
 client.unfocused	    	$darkblue	$darkblue	$grey		$darkgrey	$darkgrey
 client.focused_inactive		$darkblue	$darkblue	$grey		$darkgrey	$darkgrey
 client.urgent		    	$urgentred	$urgentred	$white		$yellowbrown	$yellowbrown
